@@ -14,9 +14,7 @@ case $DISTR in
           pkg update
           pkg upgrade
           pkg install php
-          echo "enter the authorization token VK: "
-          read token
-          jq -n --arg name-is $token '{"token": $ARGS.named["name-is"]}'
+          php config.php
           ;;
      *)
           echo "What?"
