@@ -7,7 +7,15 @@ read DISTR
 
 case $DISTR in
      1|linux)
+          if [ "$EUID" -ne 0 ]
+               then echo "Пожалуйста, запустите программу через sudo"
+               exit
+          else
           echo "Linux install..."
+          sudo apt-get update
+          sudo apt-get upgrade
+          sudo apt-get install php
+          php config.php
           ;;
      2|termux)
           echo "Termux install..."
@@ -17,6 +25,6 @@ case $DISTR in
           php config.php
           ;;
      *)
-          echo "What?"
+          echo "Unknown value."
           ;;
       esac
