@@ -1,6 +1,7 @@
 <?php
 require_once "functions.php";
 
+shell_exec(clear)
 echo "Enter the VK authorization token \n";
 echo "you can get it by following the link:";
 echo "https://oauth.vk.com/authorize?client_id=6121396&scope=70658&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1";
