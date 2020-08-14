@@ -5,7 +5,7 @@
 
 **Установка:**
 ```shell
-$ git clone https://https://github.com/master-off/consoleVK
+$ git clone https://github.com/master-off/consoleVK
 $ cd consoleVK
 $ bash install.sh
 ```
