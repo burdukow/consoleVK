@@ -11,11 +11,11 @@ case $DISTR in
                then echo "Пожалуйста, запустите программу через sudo"
                exit
           else
-          echo "Linux install..."
-          sudo apt-get update
-          sudo apt-get upgrade
-          sudo apt-get install php
-          php config.php
+               echo "Linux install..."
+               sudo apt-get update
+               sudo apt-get upgrade
+               sudo apt-get install php
+               php config.php
           fi
           ;;
      2|termux)
