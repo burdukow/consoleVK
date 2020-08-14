@@ -16,6 +16,7 @@ case $DISTR in
           sudo apt-get upgrade
           sudo apt-get install php
           php config.php
+          fi
           ;;
      2|termux)
           echo "Termux install..."
