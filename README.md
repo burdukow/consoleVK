@@ -1,6 +1,5 @@
 **ConsoleVK**
-Консольный мессенджер на основе ВКонтакте
-***
+*** Консольный мессенджер на основе ВКонтакте
 **Установка:**
 ```bash
 $ git clone https://https://github.com/master-off/consoleVK
