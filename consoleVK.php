@@ -12,10 +12,12 @@ system('figlet consoleVK');
  echo "
  1) console
  2) help
- 3) exit
+ 3) update
+ 4) exit
 ";
 
 $token = json_decode(file_get_contents("config.json"))->token;
+
 echo "TOKEN: ". $token;
 
 $api = new \api\functions($token, 5.122);
@@ -74,5 +76,12 @@ if ($what == 1)
 				}
 			}
 		}
+if($what == '3'){
+	if(json_decode(file_get_contents("config.json"))->version = file_get_contents("https://raw.githubusercontent.com/master-off/consoleVK/master/version.txt")) {
+echo "you use last version";
+} else {
+	system('git pull');
+} 
+	}
 	
     
