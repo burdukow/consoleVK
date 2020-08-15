@@ -34,12 +34,11 @@ class functions
 
 	function friendsList($user_id)
 	{
-		$data = json_decode($this->request("friends.get",["user_id"=>$user_id,"order"=>"name","fields"=>"city,domain"]))->response->items;
+		$data = json_decode($this->vk_api("friends.get",["user_id"=>$user_id,"order"=>"name","fields"=>"city,domain"]))->response->items;
 		foreach($data as $friends)
 		{
 			$result .= "$friends->first_name $friends->last_name: $friends->id \n";
-
-			return $result;
 		}
+		return $result; 
 	} 
 }

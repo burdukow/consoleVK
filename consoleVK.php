@@ -15,19 +15,21 @@ system('figlet consoleVK');
  3) exit
 ";
 
-$token = json_decode("config.json")->token;
+$token = json_decode(file_get_contents("config.json"))->token;
+echo "TOKEN: ". $token;
 
 $api = new \api\functions($token, 5.122);
+$what = readline(">>> \n");
 
+echo "--- \n";
+
+if ($what == 1) 
+{
 	$data   = readline("Напишите команду: \n");
     $param  = explode(" ", $data);
     $comand = $param[0];
     $flag   = $param[1];
-
-$what = readline("Enter conamd:  \n");
-
-if ($what == 1) 
-{
+	
 		if($comand == "dialog")
 		{
 			/* if($flag == "-l")
@@ -58,6 +60,8 @@ if ($what == 1)
 	
 		if($flag == "-s")
 		{
+		echo $param[2];
+		echo $param[3];
 		echo $api->sendMessage($param[2], $param[3]);
 			} 
 		}
