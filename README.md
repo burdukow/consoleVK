@@ -10,7 +10,7 @@ Python 3
 **Установка:**
 ```shell
 $ git clone https://github.com/master-off/consoleVK.git
-$ cd
+$ cd consoleVK
 $ pip install -r requirements.txt
 $ main.py
 ???
