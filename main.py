@@ -15,6 +15,9 @@ if command == "сообщения" or command == '1':
     if subcommand == '1' or subcommand == "все":
         filter='all'
         messages(token, filter)
+    elif subcommand == '2' or subcommand == "новые":
+        filter='unread'
+        messages(token, filter)
 else:
     print("не работает ничево")
     exit()
