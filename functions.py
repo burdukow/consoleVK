@@ -1,4 +1,5 @@
 import requests
+import os
 
 ver = str(5.131) # Версия VKAPI.
 
@@ -9,10 +10,24 @@ def auth(token):
         response  = requests.get(''.join(authentication)).json()['response'][0] # Запрос к VKAPI и сохранение ответа от сервера.
     except Exception:
         print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
+        if os.path.isfile("token.txt"):
+            print("Удалить файл с токеном? Возможно, это исправит ситуацию. y/N")
+            if input() == "y":
+                os.remove("token.txt")
+                print("Файл удалён")
         exit()
     global personalid
     personalid = response['id']
     print('Добро пожаловать,',response["first_name"],response["last_name"]+'!') # Приветствие, в случае успешного входа
+
+
+def checkupd(curver):
+    versionlink = "https://raw.githubusercontent.com/burdukow/consoleVK/master/version.txt"
+    getlink = requests.get(versionlink).text
+    if getlink != curver:
+        print("Версии не совпадают, установите новую с github.\n Актуальная версия: ", getlink,"Ваша версия: ", curver)
+    else: print("Версии совпадают.")
+
 
 def messages(token, filter):
     msgget = "https://api.vk.com/method/messages.getConversations?access_token=",token,"&count=10&filter=",filter,"&v=",ver
