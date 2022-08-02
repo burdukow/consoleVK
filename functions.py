@@ -7,7 +7,8 @@ def auth(token):
     
     authentication = "https://api.vk.com/method/users.get?access_token=",token,"&v=",ver # Ссылка на метод users.get, позволяющий определить валидность токена.
     try: 
-        response  = requests.get(''.join(authentication)).json()['response'][0] # Запрос к VKAPI и сохранение ответа от сервера.
+        response  = requests.get(''.join(authentication)).json() # Запрос к VKAPI и сохранение ответа от сервера.
+        response = response['response'][0]
     except Exception:
         print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
         if os.path.isfile("token.txt"):
@@ -47,12 +48,16 @@ def messages(token, filter):
                 msg = "Вы: "+msgtext
             else:
                 userget = "https://api.vk.com/method/users.get?access_token=",token,'&user_ids=',lastmsgid,"&v=",ver
-                req = requests.get(''.join(map(str,userget))).json()['response'][0]
-                msg = req["first_name"]+" "+req["last_name"]+": "+msgtext
+                req = requests.get(''.join(map(str,userget))).json()
+                msg = msgtext
+                if len(req['response'])>0:
+                    req = req['response'][0]
+                    msg = req["first_name"]+" "+req["last_name"]+": "+msgtext
         elif convtype == "user":
             userid = response[i]["conversation"]["peer"]["id"]
             userget = "https://api.vk.com/method/users.get?access_token=",token,'&user_ids=',userid,"&v=",ver
-            req = requests.get(''.join(map(str,userget))).json()['response'][0]
+            req = requests.get(''.join(map(str,userget))).json()
+            req = req['response'][0]
             name = req["first_name"]+" "+req["last_name"]
             if lastmsgid == personalid:
                 msg = "\n└───Вы: "+msgtext
@@ -61,7 +66,8 @@ def messages(token, filter):
         elif convtype == "group":
             groupid = response[i]["conversation"]["peer"]["local_id"]
             groupget = "https://api.vk.com/method/groups.getById?access_token=",token,"&group_id=",groupid,"&v=",ver
-            name = requests.get(''.join(map(str,groupget))).json()['response'][0]["name"]
+            name = requests.get(''.join(map(str,groupget))).json()
+            name = name['response'][0]["name"]
             if lastmsgid == personalid:
                 msg = "\n└───Вы: "+msgtext
             else:
