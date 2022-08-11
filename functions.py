@@ -58,20 +58,20 @@ def messages(token, filter):
             userget = "https://api.vk.com/method/users.get?access_token=",token,'&user_ids=',userid,"&v=",ver
             req = requests.get(''.join(map(str,userget))).json()
             req = req['response'][0]
-            name = req["first_name"]+" "+req["last_name"]
+            name = req["first_name"]+" "+req["last_name"]+'\n └─── '
             if lastmsgid == personalid:
-                msg = "\n└───Вы: "+msgtext
+                msg = "Вы: "+msgtext
             else:
-                msg = "\n└─── "+msgtext
+                msg = msgtext
         elif convtype == "group":
             groupid = response[i]["conversation"]["peer"]["local_id"]
             groupget = "https://api.vk.com/method/groups.getById?access_token=",token,"&group_id=",groupid,"&v=",ver
             name = requests.get(''.join(map(str,groupget))).json()
-            name = name['response'][0]["name"]
+            name = name['response'][0]["name"]+'\n └───'
             if lastmsgid == personalid:
-                msg = "\n└───Вы: "+msgtext
+                msg = "Вы: "+msgtext
             else:
-                msg = "\n└─── "+msgtext
-        print("\n"+str(name)+" "+str(msg))
+                msg = " "+msgtext
+        print("\n"+str(name)+" "+str(msg.split('\n',1)[0]))
     
 

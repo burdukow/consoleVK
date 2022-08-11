@@ -21,19 +21,20 @@ if not os.path.isfile("token.txt"):
         filetoken.write(token)
         filetoken.close()
         print("Токен сохранён в файл token.txt")
-command = input("┌ МЕНЮ\n├─── Сообщения\n├─── Проверить обновления\n└─── Выход\nВаша команда: ").lower()
+while True:
+    command = input("\n┌ МЕНЮ\n├─── 1) Сообщения (только вывод)\n├─── 2) Проверить обновления\n└─── 3) Выход\nВаша команда: ").lower()
 
-if command == "сообщения" or command == '1':
-    subcommand = input("Какие сообщения показать:\n1)Все (выведутся последние 10 сообщений)\n2)Новые\nВаша команда: ").lower()
-    if subcommand == '1' or subcommand == "все":
-        filter='all'
-        messages(token, filter)
-    elif subcommand == '2' or subcommand == "новые":
-        filter='unread'
-        messages(token, filter)
-elif command == "проверить обновления" or command == "обновления" or command == '2':
-    curver = open("version.txt", "r")
-    curver = curver.read()
-    checkupd(curver)
-else:
-    exit()
+    if command == "сообщения" or command == '1':
+        subcommand = input("\nКакие сообщения показать:\n├─── 1) Все (выведутся последние 10 сообщений)\n└─── 2) Новые\nВаша команда: ").lower()
+        if subcommand == '1' or subcommand == "все":
+            filter='all'
+            messages(token, filter)
+        elif subcommand == '2' or subcommand == "новые":
+            filter='unread'
+            messages(token, filter)
+    elif command == "проверить обновления" or command == "обновления" or command == '2':
+        curver = open("version.txt", "r")
+        curver = curver.read()
+        checkupd(curver)
+    else:
+        exit()
