@@ -36,8 +36,9 @@ while True:
             filter='all'
             messages(offset, token, filter)
         elif subcommand == '2' or subcommand == "новые":
+            offset = input("\nСмещение (0 по стандарту): ")
             filter='unread'
-            messages(token, filter)
+            messages(offset, token, filter)
     elif command == "выход" or command == "выход из аккаунта" or command == "2":
         subcommand=input("Вы действительно хотите выйти из аккаунта? При этом действии удалится файл токена, а приложение закроется. y/N\n").lower()
         if subcommand == "y":

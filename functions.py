@@ -4,23 +4,33 @@ import os
 ver = str(5.131) # Версия VKAPI.
 
 def auth(token):
-    authentication = "https://api.vk.com/method/users.get?access_token=",token,"&v=",ver # Ссылка на метод users.get, позволяющий определить валидность токена.
+    authentication = "https://api.vk.com/method/messages.getConversations?access_token=",token,"&v=",ver # Ссылка на метод users.get, позволяющий определить валидность токена.
+    userinfo = requests.get(''.join("https://api.vk.com/method/users.get?access_token="+token+"&v="+ver)).json()['response'][0]
+    first_name, last_name = userinfo["first_name"],userinfo["last_name"]
     try: 
         response  = requests.get(''.join(authentication)).json() # Запрос к VKAPI и сохранение ответа от сервера.
-        response = response['response'][0]
+        # response = response['response'][0]
     except Exception:
-        if token == "removed":
+        try:
+            if response['error']['error_code'] == 15:
+                print("\033[37m\033[41mОшибка 15. Доступ к методу запрещён.\n\033[0mПровертье разрешения токена, возможно, токену запрещён доступ к сообщениям.")
+                exit()
+            elif response['error']['error_code'] == 5:
+                print("\033[37m\033[41mОшибка 5. Неудачная авторизация, токен невалидный.\n\033[0mПроверьте правильность токена.")
+                exit()
+        except Exception:
+            if token == "removed":
+                exit()
+            print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
+            if os.path.isfile("token.txt"):
+                print("Удалить файл с токеном? Возможно, это исправит ситуацию. y/N")
+                if input() == "y":
+                    os.remove("token.txt")
+                    print("Файл удалён")
             exit()
-        print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
-        if os.path.isfile("token.txt"):
-            print("Удалить файл с токеном? Возможно, это исправит ситуацию. y/N")
-            if input() == "y":
-                os.remove("token.txt")
-                print("Файл удалён")
-        exit()
     global personalid
-    personalid = response['id']
-    print('Добро пожаловать,',response["first_name"],response["last_name"]+'!') # Приветствие, в случае успешного входа
+    personalid = userinfo['id']
+    print('Добро пожаловать,',first_name,last_name+'!') # Приветствие, в случае успешного входа
 
 
 def checkupd():
@@ -29,9 +39,9 @@ def checkupd():
     versionlink = "https://raw.githubusercontent.com/burdukow/consoleVK/master/version.txt"
     getlink = requests.get(versionlink).text
 
-    state = open("dev.txt", "r")
-    state = state.read()
-    if state != "True":
+    try:
+        open("dev.txt", "r")
+    except FileNotFoundError:
         if getlink != curver:
             print("Версии не совпадают, установите новую с github.\n Актуальная версия: ", getlink,"Ваша версия: ", curver)
             return "upd"
