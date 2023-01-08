@@ -5,8 +5,7 @@ ver = str(5.131) # Версия VKAPI.
 
 def auth(token):
     authentication = "https://api.vk.com/method/messages.getConversations?access_token=",token,"&v=",ver # Ссылка на метод users.get, позволяющий определить валидность токена.
-    userinfo = requests.get(''.join("https://api.vk.com/method/users.get?access_token="+token+"&v="+ver)).json()['response'][0]
-    first_name, last_name = userinfo["first_name"],userinfo["last_name"]
+    
     try: 
         response  = requests.get(''.join(authentication)).json() # Запрос к VKAPI и сохранение ответа от сервера.
         # response = response['response'][0]
@@ -28,6 +27,8 @@ def auth(token):
                     os.remove("token.txt")
                     print("Файл удалён")
             exit()
+    userinfo = requests.get(''.join("https://api.vk.com/method/users.get?access_token="+token+"&v="+ver)).json()['response'][0]
+    first_name, last_name = userinfo["first_name"],userinfo["last_name"]
     global personalid
     personalid = userinfo['id']
     print('Добро пожаловать,',first_name,last_name+'!') # Приветствие, в случае успешного входа
