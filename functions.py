@@ -10,27 +10,32 @@ def auth(token):
         authentication = "https://api.vk.com/method/messages.getConversations?access_token=",token,"&v=",ver # Ссылка на метод users.get, позволяющий определить валидность токена.
         try: 
             response  = requests.get(''.join(authentication)).json() # Запрос к VKAPI и сохранение ответа от сервера.
-            userinfo = requests.get(''.join("https://api.vk.com/method/users.get?access_token="+token+"&v="+ver)).json()['response'][0]
         except Exception:
-            try:
-                if response['error']['error_code'] == 15:
-                    print("\033[37m\033[41mОшибка 15. Доступ к методу запрещён.\n\033[0mПровертье разрешения токена, возможно, токену запрещён доступ к сообщениям.")
+            print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
+            if os.path.isfile("token.txt"):
+                print("Удалить файл с токеном? Возможно, это исправит ситуацию. y/N")
+                if input() == "y":
+                    os.remove("token.txt")
+                    print("Файл удалён")
+            exit()
+        if response['error']['error_code'] == 15:
+                    print("\033[37m\033[41mОшибка 15. Доступ к методу запрещён.\033[0m")
+                    print("\033[0mПровертье разрешения токена, возможно, токену запрещён доступ к сообщениям.")
                     exit()
-                elif response['error']['error_code'] == 5:
-                    print("\033[37m\033[41mОшибка 5. Неудачная авторизация, токен невалидный.\n\033[0mПроверьте правильность токена.")
+        elif response['error']['error_code'] == 5:
+                    print("\033[37m\033[41mОшибка 5. Неудачная авторизация, токен невалидный.\033[0m")
+                    print("\033[0mПроверьте правильность токена.")
                     exit()
-            except Exception:
-                print("Что-то пошло не так, возможно, токен неверный или произошёл сбой.") # В случае ошибки просто закрывается.
-                if os.path.isfile("token.txt"):
-                    print("Удалить файл с токеном? Возможно, это исправит ситуацию. y/N")
-                    if input() == "y":
-                        os.remove("token.txt")
-                        print("Файл удалён")
-                exit()
-        first_name, last_name = userinfo["first_name"],userinfo["last_name"]
-        global personalid
-        personalid = userinfo['id']
-        print('Добро пожаловать,',first_name,last_name+'!') # Приветствие, в случае успешного входа
+        elif response['error']:
+                    print("\033[37m\033[41mНеизвестная ошибка.\033[0m")
+                    print("\033[0mВозможные варианты ошибки:\n    Проблема в токене;\n    Проблема в коде;\n    Проблема на стороне ВК.")
+                    exit()
+        else: 
+            userinfo = requests.get(''.join("https://api.vk.com/method/users.get?access_token="+token+"&v="+ver)).json()['response'][0]
+            first_name, last_name = userinfo["first_name"],userinfo["last_name"]
+            global personalid
+            personalid = userinfo['id']
+            print('Добро пожаловать,',first_name,last_name+'!') # Приветствие, в случае успешного входа
 
 
 def checkupd():
