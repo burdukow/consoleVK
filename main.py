@@ -28,7 +28,7 @@ if not os.path.isfile("token.txt"):
         filetoken.close()
         print("Токен сохранён в файл token.txt")
 while True:
-    command = input("\n┌ МЕНЮ\n├─── 1) Сообщения (только вывод)\n└─── 2) Выход (выход из аккаунта, закрытие приложения, удаление токена)\nВаша команда: ").lower()
+    command = input("\n┌ МЕНЮ\n├─── 1) Сообщения (только вывод)\n├─── 2) Выход (выход из аккаунта, закрытие приложения, удаление токена)\n└─── 3) Выйти из приложения\nВаша команда: ").lower()
     if command == "сообщения" or command == '1':
         subcommand = input("\nКакие сообщения показать:\n├─── 1) Все (выведутся последние 10 сообщений)\n└─── 2) Новые\nВаша команда: ").lower()
         if subcommand == '1' or subcommand == "все":
@@ -36,9 +36,10 @@ while True:
             filter='all'
             messages(offset, token, filter)
         elif subcommand == '2' or subcommand == "новые":
+            offset = input("\nСмещение (0 по стандарту): ")
             filter='unread'
-            messages(token, filter)
-    elif command == "выход" or command == "выход из аккаунта" or command == "2":
+            messages(offset, token, filter)
+    elif command == "выход из аккаунта" or command == "2":
         subcommand=input("Вы действительно хотите выйти из аккаунта? При этом действии удалится файл токена, а приложение закроется. y/N\n").lower()
         if subcommand == "y":
             rmtoken(token)

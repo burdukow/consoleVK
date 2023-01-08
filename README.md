@@ -1,17 +1,15 @@
-# ConsoleVK RE
-**Информация:**
-Неофициальынй CLI клиент ВК, основанный на Python.
-*** 
-**Зависимости:**
-Python 3
-Аккаунт VK
-???
-*** 
-**Установка:**
-```shell
-$ git clone https://github.com/master-off/consoleVK.git
-$ cd consoleVK
-$ pip install -r requirements.txt
-$ main.py
-???
+## **Информация:**<br>
+Неофициальынй CLI клиент ВК, основанный на Python Requests.
+
+## **Зависимости:**<br>
+* Python 3<br>
+* Requests<br>
+* Аккаунт VK<br>
+
+## **Установка:**
+```shellsession
+git clone https://github.com/burdukow/consoleVK.git
+cd consoleVK
+pip install -r requirements.txt
+python main.py
 ```
